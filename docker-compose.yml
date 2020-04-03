@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  # phoenix:
+  #   build:
+  #     context: .
+  #   environment:
+  #     PGUSER: postgres
+  #     PGPASSWORD: postgres
+  #     PGDATABASE: influxinator_dev
+  #     PGPORT: 5432
+  #     PGHOST: db
+  #   ports:
+  #     - "4000:4000"
+  #   depends_on:
+  #     - db
+  #     - influxdb
+  #   # command:
+  #   #   - ./run.sh
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    restart: always
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb-volume:/var/lib/influxdb
+  db:
+    image: postgres:9.6
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
+  influxdb-volume:
+  

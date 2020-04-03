@@ -1,0 +1,22 @@
+version: "2"
+services:
+  postgres:
+    image: postgres:9.6.5
+    ports:
+      - "5432:5432"
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    restart: always
+    ports:
+      - 8086:8086
+  api:
+    build: .
+    command: mix phx.server
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - influxdb
